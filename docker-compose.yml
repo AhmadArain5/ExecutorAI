@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: executor-ai-app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENROUTER_REFERER: http://localhost:3000
+      DOCKER_HOST: unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - executor-temp:/tmp/executor
+    depends_on:
+      - docker-executor
+    networks:
+      - executor-network
+    restart: unless-stopped
+
+  docker-executor:
+    image: docker:24-dind
+    container_name: executor-ai-docker
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - executor-temp:/tmp/executor:rw
+    networks:
+      - executor-network
+    restart: unless-stopped
+
+volumes:
+  executor-temp:
+    driver: local
+
+networks:
+  executor-network:
+    driver: bridge

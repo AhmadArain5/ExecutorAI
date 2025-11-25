@@ -1,15 +1,18 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Editor from "@monaco-editor/react";
 import Button from "../components/Button";
 
-export default function EditorPage() {
+function EditorContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [code, setCode] = useState("");
     const [language, setLanguage] = useState("python");
+    const [executing, setExecuting] = useState(false);
+    const [executionOutput, setExecutionOutput] = useState("");
+    const [executionError, setExecutionError] = useState("");
 
     useEffect(() => {
         const codeParam = searchParams.get("code");
@@ -27,6 +30,41 @@ export default function EditorPage() {
             router.push("/");
         }
     }, [searchParams, router]);
+
+    async function handleExecute() {
+        setExecuting(true);
+        setExecutionOutput("");
+        setExecutionError("");
+
+        try {
+            const response = await fetch("/api/execute", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code, language }),
+            });
+
+            if (!response.ok) {
+                const { error } = await response.json();
+                setExecutionError(error || "Failed to execute code");
+                return;
+            }
+
+            const { output, error, exitCode } = await response.json();
+            if (error && error.trim()) {
+                setExecutionError(error);
+            }
+            if (output && output.trim()) {
+                setExecutionOutput(output);
+            }
+            if (!error && !output) {
+                setExecutionOutput("(No output)");
+            }
+        } catch (err) {
+            setExecutionError(err instanceof Error ? err.message : "An error occurred");
+        } finally {
+            setExecuting(false);
+        }
+    }
 
     function handleCopy() {
         navigator.clipboard.writeText(code);
@@ -83,12 +121,7 @@ export default function EditorPage() {
                     >
                         <option value="python">Python</option>
                         <option value="javascript">JavaScript</option>
-                        <option value="typescript">TypeScript</option>
-                        <option value="java">Java</option>
-                        <option value="cpp">C++</option>
-                        <option value="csharp">C#</option>
-                        <option value="go">Go</option>
-                        <option value="rust">Rust</option>
+                        <option value="bash">Bash</option>
                     </select>
                     <Button variant="ghost" onClick={handleCopy}>
                         Copy to Clipboard
@@ -96,8 +129,37 @@ export default function EditorPage() {
                     <Button variant="primary" onClick={handleDownload}>
                         Download
                     </Button>
+                    <Button
+                        variant="primary"
+                        onClick={handleExecute}
+                        disabled={executing}
+                    >
+                        {executing ? "Running..." : "Execute"}
+                    </Button>
                 </div>
+
+                {executionError && (
+                    <div className="mt-4 rounded-lg bg-red-900/20 border border-red-800 p-4">
+                        <p className="text-sm text-red-300 font-medium">Execution Error</p>
+                        <p className="mt-2 text-sm text-red-200 whitespace-pre-wrap font-mono">{executionError}</p>
+                    </div>
+                )}
+
+                {executionOutput && (
+                    <div className="mt-4 rounded-lg bg-green-900/20 border border-green-800 p-4">
+                        <p className="text-sm text-green-300 font-medium">Output</p>
+                        <p className="mt-2 text-sm text-green-100 whitespace-pre-wrap font-mono">{executionOutput}</p>
+                    </div>
+                )}
             </div>
         </div>
+    );
+}
+
+export default function EditorPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 flex items-center justify-center p-4"><p className="text-slate-100">Loading editor...</p></div>}>
+            <EditorContent />
+        </Suspense>
     );
 }
