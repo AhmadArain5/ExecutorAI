@@ -19,6 +19,8 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        console.log("[Generate] Starting request. API Key length:", apiKey.length, "Referer:", process.env.OPENROUTER_REFERER);
+
         // Helper: fetch with retries for transient errors (network, 5xx, 429)
         const maxAttempts = 3;
         const url = "https://openrouter.ai/api/v1/chat/completions";
