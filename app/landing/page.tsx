@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, Variants } from "framer-motion"; // Added 'Variants' to import
+import { motion, Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
     Code2,
@@ -17,7 +17,6 @@ import {
 export default function Landing() {
     const router = useRouter();
 
-    // Added ': Variants' type annotation to fix the TypeScript error
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
@@ -29,7 +28,6 @@ export default function Landing() {
         },
     };
 
-    // Added ': Variants' type annotation here as well
     const itemVariants: Variants = {
         hidden: { opacity: 0, y: 20 },
         visible: {
@@ -52,17 +50,17 @@ export default function Landing() {
         {
             icon: Code2,
             title: "Monaco Environment",
-            description: "Full-featured browser IDE with syntax highlighting, diagnostics, and intelligent autocompletion.",
+            description: "VS Code browser IDE with syntax highlighting and diagnostics.",
         },
         {
             icon: Container,
             title: "Ephemeral Containers",
-            description: "Code runs in isolated Docker instances that self-destruct after execution. Zero side effects.",
+            description: "Code runs in isolated Docker instances that self-destruct after execution.",
         },
         {
             icon: Shield,
-            title: "Military-Grade Sandbox",
-            description: "Network dropped. Filesystem read-only. Capabilities stripped. Complete infrastructure isolation.",
+            title: "Sandboxed",
+            description: "Files Excecuted in temporary containers. Completely isolated.",
         },
     ];
 
@@ -124,7 +122,7 @@ export default function Landing() {
                 >
                     <div className="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-400 text-xs font-bold tracking-widest uppercase">
                         <Activity className="w-3 h-3" />
-                        v2.0 Stable Release
+                        v2.0 New Release
                     </div>
 
                     <h1 className="text-center text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-6 relative">
@@ -270,15 +268,14 @@ export default function Landing() {
                                 ISOLATED <br /><span className="text-green-500">SANDBOX</span> ENV
                             </h2>
                             <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                                Every line of code runs in a temporary, firewalled container. We utilize strict kernel-level isolation to ensure your execution is safe, private, and leaves no trace.
+                                Every line of code runs in a temporary, firewalled container. We utilize strict isolation to ensure your execution is safe, private, and leaves no trace.
                             </p>
 
                             <ul className="space-y-4">
                                 {[
                                     "Disposable Filesystems",
-                                    "Outbound Network Blocked",
-                                    "CPU/RAM Hard Limits",
-                                    "Automatic Garbage Collection"
+                                    "Isolated Containers",
+                                    "CPU/RAM Hard Limits"
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-center gap-3 text-white font-bold">
                                         <div className="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_10px_#22c55e]"></div>
@@ -338,7 +335,7 @@ export default function Landing() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
                         <div className="flex items-center gap-2 text-green-500 font-bold"><Globe className="w-5 h-5" /> GLOBAL_ACCESS</div>
-                        <div className="flex items-center gap-2 text-green-500 font-bold"><Cpu className="w-5 h-5" /> HIGH_PERFORMANCE</div>
+                        <div className="flex items-center gap-2 text-green-500 font-bold"><Cpu className="w-5 h-5" /> ISOLATED</div>
                         <div className="flex items-center gap-2 text-green-500 font-bold"><Shield className="w-5 h-5" /> ENCRYPTED</div>
                         <div className="flex items-center gap-2 text-green-500 font-bold"><Activity className="w-5 h-5" /> 99.9%_UPTIME</div>
                     </div>
