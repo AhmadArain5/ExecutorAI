@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/Button";
 import { Code2, Zap, Shield, Container, ArrowRight } from "lucide-react";
+// LoopingTypewriter import is removed
 
 export default function Landing() {
     const router = useRouter();
