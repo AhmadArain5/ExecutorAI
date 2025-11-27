@@ -1,202 +1,220 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion"; // Added 'Variants' to import
 import { useRouter } from "next/navigation";
-import Button from "@/app/components/Button";
-import { Code2, Zap, Shield, Container, ArrowRight } from "lucide-react";
-// LoopingTypewriter import is removed
+import {
+    Code2,
+    Zap,
+    Shield,
+    Container,
+    ArrowRight,
+    Terminal,
+    Cpu,
+    Globe,
+    Activity
+} from "lucide-react";
 
 export default function Landing() {
     const router = useRouter();
 
-    const containerVariants = {
+    // Added ': Variants' type annotation to fix the TypeScript error
+    const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.2,
+                staggerChildren: 0.1,
                 delayChildren: 0.1,
             },
         },
     };
 
-    const itemVariants = {
+    // Added ': Variants' type annotation here as well
+    const itemVariants: Variants = {
         hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,
             transition: {
-                duration: 0.8,
+                type: "spring",
+                stiffness: 50,
+                damping: 20
             },
-        },
-    };
-
-    const featureVariants = {
-        hidden: { opacity: 0, scale: 0.8 },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            transition: {
-                duration: 0.6,
-            },
-        },
-        hover: {
-            scale: 1.05,
-            transition: { duration: 0.3 },
         },
     };
 
     const features = [
         {
             icon: Zap,
-            title: "AI Code Generation",
-            description: "> Generate code from plain English prompts using advanced AI models. Fast, reliable, production-ready.",
+            title: "Generative Intelligence",
+            description: "Translate natural language prompts into executable Python scripts instantly using advanced LLMs.",
         },
         {
             icon: Code2,
-            title: "Terminal Editor",
-            description: "> Write and edit code in a full-featured Monaco editor with syntax highlighting and real-time diagnostics.",
+            title: "Monaco Environment",
+            description: "Full-featured browser IDE with syntax highlighting, diagnostics, and intelligent autocompletion.",
         },
         {
             icon: Container,
-            title: "Docker Execution",
-            description: "> Execute code in isolated, temporary Docker containers with strict resource limits and timeouts.",
+            title: "Ephemeral Containers",
+            description: "Code runs in isolated Docker instances that self-destruct after execution. Zero side effects.",
         },
         {
             icon: Shield,
-            title: "Secure Sandbox",
-            description: "> Network isolation, read-only filesystems, and capability dropping keep your infrastructure safe.",
+            title: "Military-Grade Sandbox",
+            description: "Network dropped. Filesystem read-only. Capabilities stripped. Complete infrastructure isolation.",
         },
     ];
 
     return (
-        <div className="min-h-screen bg-black text-green-400 font-mono" style={{ backgroundImage: "repeating-linear-gradient(0deg, rgba(16,185,129,0.03) 0px, rgba(16,185,129,0.03) 1px, transparent 1px, transparent 2px)" }}>
-            {/* Scanline effect */}
-            <div className="fixed inset-0 pointer-events-none opacity-10" style={{ backgroundImage: "repeating-linear-gradient(0deg, #000 0px, #000 1px, transparent 1px, transparent 2px)" }}></div>
+        <div className="min-h-screen bg-black text-green-400 font-mono relative overflow-hidden selection:bg-green-500/30 selection:text-green-200">
+            {/* Background Layers */}
+            <div className="fixed inset-0 pointer-events-none z-0" style={{ backgroundImage: "repeating-linear-gradient(0deg, rgba(16,185,129,0.03) 0px, rgba(16,185,129,0.03) 1px, transparent 1px, transparent 2px)" }}></div>
+            <div className="fixed inset-0 pointer-events-none z-0 opacity-20" style={{ backgroundImage: "repeating-linear-gradient(0deg, #000 0px, #000 1px, transparent 1px, transparent 2px)" }}></div>
+            <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.1)_0%,_rgba(0,0,0,1)_70%)]"></div>
 
             {/* Navigation */}
-            <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/80 border-b-2 border-green-500/50">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-                    <div className="text-2xl font-bold text-green-400 tracking-widest">
-                        <span className="text-yellow-400">$</span> TERMINAL67
+            <nav className="fixed top-0 left-0 right-0 z-50 border-b border-green-500/20 bg-black/80 backdrop-blur-md">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <Terminal className="w-5 h-5 text-yellow-400" />
+                        <span className="text-xl font-bold tracking-[0.2em] text-white">
+                            TERMINAL<span className="text-green-500">67</span>
+                        </span>
                     </div>
-                    <div className="hidden md:flex gap-4 text-sm items-center">
-                        <Button
-                            variant="ghost"
+
+                    <div className="hidden md:flex items-center gap-1">
+                        <div className="flex items-center gap-2 px-3 py-1 bg-green-900/10 border border-green-500/20 rounded text-xs text-green-400">
+                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            SYSTEM ONLINE
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4 text-sm items-center">
+                        <button
                             onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })}
-                            className="px-4 py-2 text-sm border-2 border-green-500 hover:border-green-300 hover:text-green-300 text-white font-bold transition-all duration-300 rounded-lg"
+                            className="hidden md:block hover:text-white transition-colors uppercase tracking-wider text-xs"
                         >
-                            FEATURES
-                        </Button>
-                        <Button
-                            variant="ghost"
+                            Modules
+                        </button>
+                        <button
                             onClick={() => document.getElementById("security")?.scrollIntoView({ behavior: "smooth" })}
-                            className="px-4 py-2 text-sm border-2 border-green-500 hover:border-green-300 hover:text-green-300 text-white font-bold transition-all duration-300 rounded-lg"
+                            className="hidden md:block hover:text-white transition-colors uppercase tracking-wider text-xs"
                         >
-                            SECURITY
-                        </Button>
-                        <Button
+                            Security
+                        </button>
+                        <button
                             onClick={() => router.push("/generate")}
-                            className="bg-green-600 hover:bg-green-500 text-white font-bold px-4 py-2 rounded-lg border-2 border-green-400"
+                            className="bg-green-600 hover:bg-green-500 text-black font-bold px-5 py-2 rounded text-xs uppercase tracking-widest transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.6)] flex items-center gap-2"
                         >
-                            EXECUTE
-                        </Button>
+                            <Cpu className="w-4 h-4" />
+                            Initialize
+                        </button>
                     </div>
                 </div>
             </nav>
 
             {/* Hero Section */}
-            <motion.section
-                className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <motion.div variants={itemVariants} className="text-center mb-12">
-                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-green-400 tracking-wider">
-                        <span className="animate-pulse text-yellow-400">&gt;</span> TERMINAL67
-                        <br />
-                        <span className="text-green-500 text-3xl sm:text-4xl">Code Execution Engine</span>
-                    </h1>
-                </motion.div>
-
-                <motion.p
-                    variants={itemVariants}
-                    className="text-lg sm:text-xl text-white max-w-2xl mx-auto mb-8 leading-relaxed font-mono"
-                >
-                    <span className="text-yellow-400">$</span> terminal67 <span className="text-yellow-400">&lt;prompt&gt;</span> <br />
-                    <span className="text-gray-300">Generate AI code, execute in isolated Docker containers, and see results in real-time.</span>
-                </motion.p>
-
+            <section className="relative z-10 pt-40 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center">
                 <motion.div
-                    variants={itemVariants}
-                    className="flex flex-col sm:flex-row gap-4 justify-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="flex flex-col items-center w-full"
                 >
-                    <Button
-                        onClick={() => router.push("/generate")}
-                        className="px-8 py-4 text-lg bg-green-600 hover:bg-green-500 text-white font-bold border-2 border-green-400 shadow-lg hover:shadow-green-500/50 transition-all duration-300 flex items-center justify-center gap-2 group rounded-lg"
-                    >
-                        EXECUTE NOW
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })}
-                        className="px-8 py-4 text-lg border-2 border-green-500 hover:border-green-300 hover:text-green-300 text-white font-bold transition-all duration-300 rounded-lg"
-                    >
-                        LEARN MORE
-                    </Button>
-                </motion.div>
-
-                {/* Hero Visual - Code Snippet Animation */}
-                <motion.div
-                    variants={itemVariants}
-                    className="mt-16 bg-black border-2 border-green-500 p-6 shadow-2xl shadow-green-500/20 font-mono text-sm rounded-xl overflow-hidden"
-                >
-                    <div className="text-cyan-400 mb-4 text-xs">
-                        <span className="text-green-400">[terminal67 ~]</span><span className="text-yellow-400">$</span>
+                    <div className="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-400 text-xs font-bold tracking-widest uppercase">
+                        <Activity className="w-3 h-3" />
+                        v2.0 Stable Release
                     </div>
-                    <pre className="text-white overflow-x-auto leading-relaxed">
-                        <code>
-                            {`prompt: `}<span className="text-red-400">"Create a Python function that checks if a number is prime"</span>{`
 
-`}<span className="text-cyan-400">{`[GENERATING]`}</span>{`
-`}<span className="text-yellow-400">{`def`}</span>{` is_prime(n: `}<span className="text-green-400">{`int`}</span>{`) -> `}<span className="text-green-400">{`bool`}</span>{`:
-    `}<span className="text-yellow-400">{`if`}</span>{` n < `}<span className="text-red-400">{`2`}</span>{`:
-        `}<span className="text-yellow-400">{`return`}</span>{` `}<span className="text-green-400">{`False`}</span>{`
-    `}<span className="text-yellow-400">{`for`}</span>{` i `}<span className="text-yellow-400">{`in`}</span>{` range(`}<span className="text-red-400">{`2`}</span>{`, int(n**`}<span className="text-red-400">{`0.5`}</span>{`) + `}<span className="text-red-400">{`1`}</span>{`):
-        `}<span className="text-yellow-400">{`if`}</span>{` n % i == `}<span className="text-red-400">{`0`}</span>{`:
-            `}<span className="text-yellow-400">{`return`}</span>{` `}<span className="text-green-400">{`False`}</span>{`
-    `}<span className="text-yellow-400">{`return`}</span>{` `}<span className="text-green-400">{`True`}</span>{`
+                    <h1 className="text-center text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-6 relative">
+                        <span className="absolute -inset-1 text-green-500 opacity-20 blur-lg select-none">EXECUTE CODE</span>
+                        EXECUTE <span className="text-transparent bg-clip-text bg-gradient-to-b from-green-400 to-green-700">CODE</span>
+                        <br />
+                        <span className="text-3xl md:text-5xl lg:text-6xl font-normal text-gray-400 tracking-normal mt-2 block">
+                            AT THE SPEED OF THOUGHT
+                        </span>
+                    </h1>
 
-`}<span className="text-cyan-400">{`[EXECUTING]`}</span>{`
-`}<span className="text-yellow-400">{`>>>>`}</span>{` is_prime(`}<span className="text-red-400">{`17`}</span>{`)
-`}<span className="text-green-400">{`True`}</span>{`
-`}<span className="text-green-400">{`[✓ SUCCESS]`}</span>
-                        </code>
-                    </pre>
+                    <p className="text-center text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                        <span className="text-green-500">user@terminal67:~$</span> Generate, edit, and run Python code in a secure, ephemeral Docker environment. No setup required.
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
+                        <button
+                            onClick={() => router.push("/generate")}
+                            className="group relative px-8 py-4 bg-green-600 text-black font-bold text-lg rounded overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(34,197,94,0.5)]"
+                        >
+                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                            <span className="relative flex items-center gap-2">
+                                START NEW SESSION <ArrowRight className="w-5 h-5" />
+                            </span>
+                        </button>
+                        <button
+                            onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })}
+                            className="px-8 py-4 bg-transparent border border-green-500 text-green-400 font-bold text-lg rounded transition-all hover:bg-green-500/10 hover:text-white"
+                        >
+                            VIEW DOCUMENTATION
+                        </button>
+                    </div>
                 </motion.div>
-            </motion.section>
 
-            {/* Features Section */}
-            <motion.section
-                id="features"
-                className="py-20 px-4 sm:px-6 lg:px-8 bg-black/50 border-y-2 border-green-500/30"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-            >
-                <div className="max-w-6xl mx-auto">
-                    <motion.h2
-                        variants={itemVariants}
-                        className="text-4xl sm:text-5xl font-bold text-center mb-16 text-green-400 tracking-wider"
-                    >
-                        <span className="text-yellow-400">$</span> FEATURES
-                    </motion.h2>
+                {/* Code Snippet - Floating Terminal Window */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.8 }}
+                    className="mt-20 w-full max-w-4xl bg-black/90 border border-green-500/30 rounded-lg overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.15)] backdrop-blur-sm relative group"
+                >
+                    {/* Header bar */}
+                    <div className="flex items-center justify-between px-4 py-3 bg-green-900/20 border-b border-green-500/20">
+                        <div className="flex gap-2">
+                            <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
+                            <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                            <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
+                        </div>
+                        <div className="text-xs text-green-500/50 font-bold tracking-widest uppercase">bash — 80x24</div>
+                    </div>
+
+                    {/* Code Content */}
+                    <div className="p-6 font-mono text-sm md:text-base overflow-x-auto">
+                        <div className="mb-4 text-gray-400">
+                            <span className="text-green-500">root@vm-node-01:~$</span> terminal67 --generate "calculate fibonacci"
+                        </div>
+                        <div className="text-blue-400 mb-2">[AI_CORE] Processing natural language request...</div>
+                        <div className="pl-4 border-l-2 border-green-500/30 mb-4">
+                            <span className="text-purple-400">def</span> <span className="text-yellow-300">fibonacci</span>(n):<br />
+                            &nbsp;&nbsp;<span className="text-purple-400">if</span> n &lt;= 1: <span className="text-purple-400">return</span> n<br />
+                            &nbsp;&nbsp;<span className="text-purple-400">return</span> fibonacci(n-1) + fibonacci(n-2)<br />
+                            <br />
+                            <span className="text-gray-500"># Calculating first 10 numbers</span><br />
+                            <span className="text-purple-400">print</span>([fibonacci(i) <span className="text-purple-400">for</span> i <span className="text-purple-400">in</span> <span className="text-yellow-300">range</span>(10)])
+                        </div>
+                        <div className="mb-2 text-gray-400">
+                            <span className="text-green-500">root@vm-node-01:~$</span> executing script...
+                        </div>
+                        <div className="text-green-400 font-bold">
+                            &gt;&gt; [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+                        </div>
+                        <div className="mt-2 flex items-center gap-2 text-green-500">
+                            <span className="w-2 h-4 bg-green-500 animate-pulse"></span>
+                        </div>
+                    </div>
+                </motion.div>
+            </section>
+
+            {/* Features Grid */}
+            <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-wide">
+                            <span className="text-green-500">///</span> SYSTEM MODULES
+                        </h2>
+                        <div className="h-1 w-20 bg-green-500 mx-auto rounded-full"></div>
+                    </div>
 
                     <motion.div
-                        className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
                         variants={containerVariants}
                         initial="hidden"
                         whileInView="visible"
@@ -207,17 +225,19 @@ export default function Landing() {
                             return (
                                 <motion.div
                                     key={idx}
-                                    variants={featureVariants}
-                                    whileHover="hover"
-                                    className="bg-black border-2 border-green-500 p-8 hover:border-green-300 hover:shadow-lg hover:shadow-green-500/30 transition-all duration-300 group rounded-lg"
+                                    variants={itemVariants}
+                                    className="group bg-black/50 border border-green-500/20 p-8 hover:bg-green-900/5 hover:border-green-500/50 hover:-translate-y-2 transition-all duration-300 rounded-lg relative overflow-hidden"
                                 >
-                                    <div className="mb-4 inline-block p-3 bg-green-500/10 border border-green-500/30 group-hover:bg-green-500/20 group-hover:border-green-400 transition-all rounded-md">
-                                        <Icon className="w-8 h-8 text-green-400 group-hover:text-green-300 transition-colors" />
+                                    <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-green-500/30 group-hover:border-green-500 transition-colors"></div>
+                                    <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-green-500/30 group-hover:border-green-500 transition-colors"></div>
+
+                                    <div className="mb-6 inline-flex items-center justify-center w-12 h-12 rounded bg-green-900/20 text-green-400 group-hover:text-white group-hover:bg-green-600 transition-all duration-300">
+                                        <Icon className="w-6 h-6" />
                                     </div>
-                                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-green-300 transition-colors">
+                                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors">
                                         {feature.title}
                                     </h3>
-                                    <p className="text-gray-300 group-hover:text-white transition-colors text-sm">
+                                    <p className="text-gray-400 leading-relaxed text-sm">
                                         {feature.description}
                                     </p>
                                 </motion.div>
@@ -225,100 +245,136 @@ export default function Landing() {
                         })}
                     </motion.div>
                 </div>
-            </motion.section>
+            </section>
 
             {/* Security Section */}
-            <motion.section
+            <section
                 id="security"
-                className="py-20 px-4 sm:px-6 lg:px-8 bg-black"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                className="py-24 bg-black border-y border-green-900/30 relative"
             >
-                <div className="max-w-4xl mx-auto">
-                    <motion.h2
-                        variants={itemVariants}
-                        className="text-4xl font-bold text-center mb-12 text-green-400 tracking-wider"
-                    >
-                        <span className="text-yellow-400">$</span> SECURITY
-                    </motion.h2>
+                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(#15803d 1px, transparent 1px)", backgroundSize: "24px 24px" }}></div>
 
-                    <motion.div
-                        className="bg-black border-2 border-green-500 p-8 md:p-12 shadow-lg shadow-green-500/20 rounded-xl"
-                        variants={itemVariants}
-                    >
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <h3 className="text-xl font-bold mb-4 text-green-400 flex items-center gap-2">
-                                    <Shield className="w-5 h-5" />
-                                    Container Isolation
-                                </h3>
-                                <ul className="space-y-2 text-white text-sm font-mono">
-                                    <li><span className="text-yellow-400">&gt;</span> Each execution runs in a fresh Docker container</li>
-                                    <li><span className="text-yellow-400">&gt;</span> Network isolation (--network none)</li>
-                                    <li><span className="text-yellow-400">&gt;</span> Read-only filesystem</li>
-                                    <li><span className="text-yellow-400">&gt;</span> Capability dropping (--cap-drop=ALL)</li>
-                                </ul>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="flex flex-col lg:flex-row gap-16 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="flex-1"
+                        >
+                            <div className="inline-block px-3 py-1 mb-4 border border-red-500/30 bg-red-900/10 text-red-400 text-xs font-bold tracking-widest uppercase rounded">
+                                Security Protocols Active
                             </div>
-                            <div>
-                                <h3 className="text-xl font-bold mb-4 text-green-400 flex items-center gap-2">
-                                    <Container className="w-5 h-5" />
-                                    Resource Limits
-                                </h3>
-                                <ul className="space-y-2 text-white text-sm font-mono">
-                                    <li><span className="text-yellow-400">&gt;</span> CPU: 1 core maximum</li>
-                                    <li><span className="text-yellow-400">&gt;</span> Memory: 256MB maximum</li>
-                                    <li><span className="text-yellow-400">&gt;</span> Timeout: 30 seconds</li>
-                                    <li><span className="text-yellow-400">&gt;</span> Process limit enforced</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div className="mt-8 pt-8 border-t border-green-500/30">
-                            <p className="text-gray-300 text-center text-sm font-mono">
-                                <span className="text-yellow-400">$</span> Your code runs on secure VMs with strict containerization. No access to host filesystem, network, or other processes.
+                            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                                ISOLATED <br /><span className="text-green-500">SANDBOX</span> ENV
+                            </h2>
+                            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
+                                Every line of code runs in a temporary, firewalled container. We utilize strict kernel-level isolation to ensure your execution is safe, private, and leaves no trace.
                             </p>
-                        </div>
-                    </motion.div>
+
+                            <ul className="space-y-4">
+                                {[
+                                    "Disposable Filesystems",
+                                    "Outbound Network Blocked",
+                                    "CPU/RAM Hard Limits",
+                                    "Automatic Garbage Collection"
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-center gap-3 text-white font-bold">
+                                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_10px_#22c55e]"></div>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="flex-1 w-full"
+                        >
+                            <div className="bg-black border border-green-500/30 p-1 rounded-lg shadow-[0_0_50px_rgba(16,185,129,0.1)]">
+                                <div className="bg-black/80 p-8 rounded border border-green-500/10 flex flex-col gap-6">
+                                    <div className="flex justify-between items-center border-b border-gray-800 pb-4">
+                                        <span className="text-gray-500 text-sm">SECURITY_LOG.TXT</span>
+                                        <div className="flex gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+                                            <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3 font-mono text-xs md:text-sm">
+                                        <div className="flex justify-between text-gray-500">
+                                            <span>10:42:01.05</span>
+                                            <span>INIT_CONTAINER_START</span>
+                                        </div>
+                                        <div className="flex justify-between text-green-400">
+                                            <span>10:42:01.12</span>
+                                            <span>[OK] NETWORK_DROPPED</span>
+                                        </div>
+                                        <div className="flex justify-between text-green-400">
+                                            <span>10:42:01.15</span>
+                                            <span>[OK] CAPABILITIES_STRIPPED</span>
+                                        </div>
+                                        <div className="flex justify-between text-green-400">
+                                            <span>10:42:01.18</span>
+                                            <span>[OK] FILESYSTEM_MOUNT_RO</span>
+                                        </div>
+                                        <div className="flex justify-between text-yellow-400 animate-pulse">
+                                            <span>10:42:01.20</span>
+                                            <span>EXECUTING_PAYLOAD...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
                 </div>
-            </motion.section>
+            </section>
+
+            {/* Global Access Banner */}
+            <div className="py-12 border-b border-green-900/30 bg-black">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                        <div className="flex items-center gap-2 text-green-500 font-bold"><Globe className="w-5 h-5" /> GLOBAL_ACCESS</div>
+                        <div className="flex items-center gap-2 text-green-500 font-bold"><Cpu className="w-5 h-5" /> HIGH_PERFORMANCE</div>
+                        <div className="flex items-center gap-2 text-green-500 font-bold"><Shield className="w-5 h-5" /> ENCRYPTED</div>
+                        <div className="flex items-center gap-2 text-green-500 font-bold"><Activity className="w-5 h-5" /> 99.9%_UPTIME</div>
+                    </div>
+                </div>
+            </div>
 
             {/* CTA Section */}
             <motion.section
-                className="py-20 px-4 sm:px-6 lg:px-8 bg-black border-t-2 border-green-500/30"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                className="py-24 px-4 sm:px-6 lg:px-8 text-center relative z-10"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
             >
-                <div className="max-w-4xl mx-auto text-center">
-                    <motion.h2
-                        variants={itemVariants}
-                        className="text-4xl font-bold mb-6 text-green-400"
-                    >
-                        Ready to Execute?
-                    </motion.h2>
-                    <motion.p
-                        variants={itemVariants}
-                        className="text-lg text-white mb-8 font-mono"
-                    >
-                        <span className="text-yellow-400">$</span> terminal67 <span className="text-green-400">--start</span>
-                    </motion.p>
-                    <motion.div variants={itemVariants}>
-                        <Button
-                            onClick={() => router.push("/generate")}
-                            className="px-10 py-4 text-lg bg-green-600 hover:bg-green-500 text-white font-bold border-2 border-green-400 shadow-lg hover:shadow-green-500/50 transition-all duration-300 rounded-lg"
-                        >
-                            LAUNCH TERMINAL67
-                        </Button>
-                    </motion.div>
-                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                    READY TO <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">DEPLOY?</span>
+                </h2>
+                <button
+                    onClick={() => router.push("/generate")}
+                    className="group relative inline-flex items-center gap-3 px-10 py-5 bg-white text-black font-black text-xl rounded hover:bg-green-400 transition-all duration-300"
+                >
+                    <span className="absolute inset-0 border-2 border-white rounded translate-x-1 translate-y-1 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300 pointer-events-none"></span>
+                    LAUNCH TERMINAL67
+                    <Terminal className="w-6 h-6" />
+                </button>
             </motion.section>
 
             {/* Footer */}
-            <footer className="border-t-2 border-green-500/30 py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm font-mono">
-                <p><span className="text-yellow-400">$</span> TERMINAL67 © 2025 | Built with Next.js, Docker, and AI</p>
+            <footer className="border-t border-green-900/30 bg-black py-12">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="text-gray-500 text-sm">
+                        <span className="text-green-500">root@terminal67:~$</span> shutdown -h now
+                    </div>
+                    <div className="text-gray-600 text-xs uppercase tracking-widest">
+                        Terminal67 © 2025 // Built for builders
+                    </div>
+                </div>
             </footer>
         </div>
     );
