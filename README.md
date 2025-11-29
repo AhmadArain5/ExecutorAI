@@ -1,3 +1,4 @@
+Visit site at: http://35.206.78.42/landing
 App Created using Next.js
 
 ## Features
