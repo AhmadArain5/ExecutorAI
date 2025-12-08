@@ -1,3 +1,6 @@
+TEMPORARILY DOWN! (approx one week)
+Please check back in a week!
+
 Visit site at: http://35.206.78.42/landing
 App Created using Next.js
 
